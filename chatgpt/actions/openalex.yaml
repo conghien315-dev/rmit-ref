@@ -1,0 +1,48 @@
+openapi: 3.1.0
+info:
+  title: OpenAlex (RMIT Ref)
+  description: Second, independent index of scholarly works, used to confirm that a reference exists and whether it has been retracted. Needs a free OpenAlex API key (Authentication -> API Key -> Bearer).
+  version: 1.0.0
+servers:
+  - url: https://api.openalex.org
+paths:
+  /works:
+    get:
+      operationId: openalexSearch
+      summary: >-
+        Search works by title (search=<title>), or look up a DOI with filter=doi:<bare DOI>.
+        Returns title, year, authors, venue, DOI and is_retracted.
+      parameters:
+        - name: search
+          in: query
+          required: false
+          description: The cited title (optionally plus first author family name).
+          schema:
+            type: string
+        - name: filter
+          in: query
+          required: false
+          description: "For DOI lookup: doi:10.1080/09544828.2021.1928024"
+          schema:
+            type: string
+        - name: per-page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 5
+            maximum: 10
+        - name: select
+          in: query
+          required: false
+          description: Fields to return. Always use the default value.
+          schema:
+            type: string
+            default: id,doi,title,publication_year,authorships,primary_location,is_retracted,type
+      responses:
+        "200":
+          description: "results: matching works, most relevant first."
+          content:
+            application/json:
+              schema:
+                type: object

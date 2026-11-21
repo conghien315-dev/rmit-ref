@@ -1,0 +1,45 @@
+openapi: 3.1.0
+info:
+  title: Open Library (RMIT Ref)
+  description: Search books by title and author, to verify book references that have no DOI. Free, no key.
+  version: 1.0.0
+servers:
+  - url: https://openlibrary.org
+paths:
+  /search.json:
+    get:
+      operationId: openLibrarySearch
+      summary: Find books by title (and optionally author family name). Returns titles, authors, years, publishers, ISBNs.
+      parameters:
+        - name: title
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: author
+          in: query
+          required: false
+          description: First author's family name.
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 5
+            maximum: 10
+        - name: fields
+          in: query
+          required: false
+          description: Fields to return. Always use the default value.
+          schema:
+            type: string
+            default: title,subtitle,author_name,first_publish_year,publish_year,publisher,isbn
+      responses:
+        "200":
+          description: "docs: matching books."
+          content:
+            application/json:
+              schema:
+                type: object

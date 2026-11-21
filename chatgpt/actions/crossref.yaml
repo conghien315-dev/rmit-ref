@@ -1,0 +1,50 @@
+openapi: 3.1.0
+info:
+  title: Crossref (RMIT Ref)
+  description: Look up and search scholarly works registered with Crossref, to verify that cited references exist and to get their correct metadata. Free, no key.
+  version: 1.0.0
+servers:
+  - url: https://api.crossref.org
+paths:
+  /works:
+    get:
+      operationId: crossrefWorks
+      summary: >-
+        Either (a) look up one DOI with filter=doi:<DOI> — total-results 0 means the DOI is not
+        registered in Crossref; or (b) search with query.bibliographic=<the whole reference text>
+        to find the best-matching registered works. Use one of filter or query.bibliographic.
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          description: "For DOI lookup: 'doi:' + the bare DOI, e.g. doi:10.1080/09544828.2021.1928024 (no https://doi.org/ prefix)."
+          schema:
+            type: string
+        - name: query.bibliographic
+          in: query
+          required: false
+          description: For search - the full reference as cited, or its title plus the first author's family name.
+          schema:
+            type: string
+        - name: rows
+          in: query
+          required: false
+          description: Number of results (use 5 for search, 1 for DOI lookup).
+          schema:
+            type: integer
+            default: 5
+            maximum: 10
+        - name: select
+          in: query
+          required: false
+          description: Fields to return. Always use the default value.
+          schema:
+            type: string
+            default: DOI,title,subtitle,author,editor,issued,published-print,published-online,container-title,type,volume,issue,page,article-number,publisher,publisher-location,ISBN,updated-by
+      responses:
+        "200":
+          description: "message.items: matching works, most relevant first; message.total-results: count."
+          content:
+            application/json:
+              schema:
+                type: object
