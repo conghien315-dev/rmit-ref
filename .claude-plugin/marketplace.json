@@ -1,0 +1,11 @@
+{
+  "name": "rmit-ref",
+  "owner": { "name": "RMIT Ref contributors" },
+  "plugins": [
+    {
+      "name": "rmit-ref",
+      "source": "./",
+      "description": "RMIT Harvard referencing helper and scientific source verifier."
+    }
+  ]
+}
