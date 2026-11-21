@@ -48,7 +48,9 @@ cp -r rmit-ref/skills/rmit-ref ~/.claude/skills/
 
 **Cách 3 — Claude.ai / Claude Desktop:** nén thư mục `skills/rmit-ref` thành file `.zip`, rồi vào **Settings → Capabilities → Skills → Upload skill**.
 
-Yêu cầu: Python 3 (không cần cài thư viện thêm) và kết nối internet để kiểm tra nguồn.
+**Cách 4 — ChatGPT:** tạo một Custom GPT theo hướng dẫn từng bước trong [`chatgpt/`](chatgpt/README.md) (dán sẵn instructions + Actions tra Crossref/OpenAlex/Open Library).
+
+Yêu cầu: Python 3 (không cần cài thư viện thêm) và kết nối internet để kiểm tra nguồn. Tùy chọn: đặt biến `OPENALEX_API_KEY` (key miễn phí tại openalex.org) nếu kiểm tra nhiều nguồn mỗi ngày.
 
 ### Dùng script trực tiếp (không cần Claude)
 
@@ -83,6 +85,9 @@ The style rules are distilled from RMIT Library's Easy Cite RMIT Harvard guide: 
 - **Claude Code plugin:** `/plugin marketplace add conghien315-dev/rmit-ref`, then `/plugin install rmit-ref@rmit-ref`.
 - **Manual (Claude Code):** copy `skills/rmit-ref` into `~/.claude/skills/`.
 - **Claude.ai / Desktop:** zip `skills/rmit-ref` and upload it under Settings → Capabilities → Skills.
+- **ChatGPT:** build a Custom GPT with the ready-made instructions and Actions in [`chatgpt/`](chatgpt/README.md).
+
+Optional: set `OPENALEX_API_KEY` (free key from openalex.org) for heavier use — OpenAlex's keyless quota is shared per IP address.
 
 Requires Python 3 (standard library only) and internet access for verification.
 
