@@ -1,0 +1,8 @@
+{
+  "name": "rmit-ref",
+  "version": "1.0.0",
+  "description": "RMIT Harvard referencing helper and scientific source verifier (detects fabricated / AI-hallucinated references).",
+  "author": { "name": "RMIT Ref contributors" },
+  "license": "MIT",
+  "keywords": ["rmit", "harvard", "referencing", "citation", "easy-cite", "academic-integrity"]
+}
