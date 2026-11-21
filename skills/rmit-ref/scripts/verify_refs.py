@@ -15,7 +15,8 @@ Usage:
   cat refs.txt | python3 verify_refs.py -         # read from stdin
   python3 verify_refs.py --from-doi 10.1080/09650792.2019.1652196 [more DOIs]
 
-Optional: set CROSSREF_MAILTO=you@example.com to use Crossref's "polite" pool.
+Optional: set CROSSREF_MAILTO=you@example.com to use Crossref's "polite" pool, and
+OPENALEX_API_KEY=<free key from https://openalex.org/settings/api> for heavier use.
 Only the Python 3 standard library is used.
 """
 
@@ -35,6 +36,8 @@ import urllib.request
 VERSION = "1.0.0"
 UA = f"rmit-ref-verifier/{VERSION} (academic reference checker; +https://github.com/conghien315-dev/rmit-ref)"
 MAILTO = os.environ.get("CROSSREF_MAILTO", "").strip()
+# OpenAlex: without a key, a small free daily budget is shared per IP address.
+OPENALEX_KEY = os.environ.get("OPENALEX_API_KEY", "").strip()
 TIMEOUT = 20
 PAUSE = 0.15  # seconds between API calls, to be polite
 
@@ -49,7 +52,9 @@ def http_get(url, accept="application/json", method="GET"):
     if key in _cache:
         return _cache[key]
     headers = {"User-Agent": UA, "Accept": accept}
-    req = urllib.request.Request(url, headers=headers, method=method)
+    if OPENALEX_KEY and url.startswith("https://api.openalex.org/"):
+        headers["Authorization"] = f"Bearer {OPENALEX_KEY}"
+    req =urllib.request.Request(url, headers=headers, method=method)
     result = (0, None, url)
     try:
         with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
