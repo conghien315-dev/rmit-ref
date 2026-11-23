@@ -1,0 +1,44 @@
+{
+  "topic": "Example from the 'Organizing Your Notes for Synthesis' slide: three sources, three ideas",
+  "sources": [
+    {"id": "S1", "label": "Source 1 2019", "reference": "Source 1 (2019) [full RMIT Harvard reference here]", "reliability": "e.g. peer-reviewed, survey n=500"},
+    {"id": "S2", "label": "Source 2 2019", "reference": "Source 2 (2019) [full RMIT Harvard reference here]"},
+    {"id": "S3", "label": "Source 3 2019", "reference": "Source 3 (2019) [full RMIT Harvard reference here]"}
+  ],
+  "ideas": [
+    {
+      "idea": "Idea 1",
+      "cells": [
+        {"source": "S1", "stance": "agree", "text": "Paraphrase of what Source 1 says about Idea 1.", "page": "12"},
+        {"source": "S2", "stance": "agree", "text": "Paraphrase of Source 2."},
+        {"source": "S3", "stance": "agree", "text": "Paraphrase of Source 3."}
+      ],
+      "notes": "Everyone agrees on this point. Check whether the shared evidence is strong (methods, samples)."
+    },
+    {
+      "idea": "Idea 2",
+      "cells": [
+        {"source": "S3", "stance": "agree", "text": "Supports the main aspect."},
+        {"source": "S2", "stance": "agree", "text": "Supports the main aspect."},
+        {"source": "S1", "stance": "partial", "text": "Different perspective on the point."},
+        {"source": "S2", "stance": "alternative", "text": "Also brings up alternative ideas."}
+      ],
+      "notes": "Sources 2 and 3 agree on the main aspect; Source 1 has a different perspective; Source 2 adds alternatives. Explain why they differ."
+    },
+    {
+      "idea": "Idea 3",
+      "cells": [
+        {"source": "S2", "stance": "disagree", "text": "Position A."},
+        {"source": "S1", "stance": "disagree", "text": "Position B."},
+        {"source": "S3", "stance": "disagree", "text": "Position C."}
+      ],
+      "notes": "All the sources disagree on this point."
+    },
+    {
+      "idea": "Idea 4 (only one source)",
+      "cells": [{"source": "S1", "stance": "agree", "text": "Only Source 1 discusses this."}],
+      "notes": ""
+    },
+    {"idea": "Idea 5 (no source yet)", "cells": [], "notes": ""}
+  ]
+}
