@@ -18,6 +18,11 @@
 | **Check in-text citation** khớp với reference list | "Bài essay của mình có cite thiếu nguồn nào không?" |
 | **Phát hiện nguồn ảo** (AI bịa, DOI sai, link chết, bài bị rút) | "Mấy nguồn này ChatGPT đưa, check xem có thật không" |
 | **Ghi nhận dùng AI** theo hướng dẫn RMIT (cập nhật 02/2026) | "Mình dùng ChatGPT để brainstorm, ghi nhận sao cho đúng?" |
+| **Tổng hợp nguồn (synthesis)** bằng synthesis matrix — skill `synthesizing` | "Mình có 4 bài báo về TikTok marketing, giúp mình làm synthesis matrix rồi viết đoạn tổng hợp" |
+
+### Skill thứ hai: `synthesizing` 🧩
+
+Biến ghi chú đọc tài liệu thành **synthesis matrix**: mỗi hàng là một *ý* (không phải một bài), mỗi cột là một nguồn, đánh dấu nguồn nào **đồng ý ●**, **đồng ý một phần / góc nhìn khác ◐**, **phản đối ⊘**, hay **đưa ra ý khác ✚**, cộng cột ghi chú về độ mạnh lập luận, mức liên quan và độ tin cậy. Skill tự nhận ra kiểu quan hệ của từng ý (đồng thuận, đa số có ý kiến khác, còn tranh cãi, chỉ một nguồn, khoảng trống), xuất bảng ra Markdown / CSV (mở bằng Excel) / HTML màu để in, rồi hướng dẫn viết đoạn văn tổng hợp với trích dẫn RMIT Harvard. Ví dụ: [`examples/synthesis-matrix.json`](examples/synthesis-matrix.json).
 
 ### Kiểm tra nguồn "khoa học" nghĩa là gì?
 
@@ -43,10 +48,10 @@ Mỗi nguồn nhận một kết luận (`VERIFIED`, `FOUND_WITH_ERRORS`, `DOI_M
 **Cách 2 — copy thủ công (Claude Code):**
 ```bash
 git clone https://github.com/conghien315-dev/rmit-ref.git
-cp -r rmit-ref/skills/rmit-ref ~/.claude/skills/
+cp -r rmit-ref/skills/rmit-ref rmit-ref/skills/synthesizing ~/.claude/skills/
 ```
 
-**Cách 3 — Claude.ai / Claude Desktop:** nén thư mục `skills/rmit-ref` thành file `.zip`, rồi vào **Settings → Capabilities → Skills → Upload skill**.
+**Cách 3 — Claude.ai / Claude Desktop:** nén thư mục `skills/rmit-ref` (và `skills/synthesizing`, mỗi skill một file `.zip`), rồi vào **Settings → Capabilities → Skills → Upload skill**.
 
 **Cách 4 — ChatGPT:** tạo một Custom GPT theo hướng dẫn từng bước trong [`chatgpt/`](chatgpt/README.md) (dán sẵn instructions + Actions tra Crossref/OpenAlex/Open Library).
 
@@ -58,6 +63,7 @@ Yêu cầu: Python 3 (không cần cài thư viện thêm) và kết nối inter
 python3 skills/rmit-ref/scripts/verify_refs.py my-refs.txt
 python3 skills/rmit-ref/scripts/verify_refs.py --from-doi 10.1080/09650792.2019.1652196
 python3 skills/rmit-ref/scripts/check_format.py my-refs.txt --text my-essay.txt
+python3 skills/synthesizing/scripts/build_matrix.py examples/synthesis-matrix.json --print
 ```
 `my-refs.txt`: mỗi reference một dòng (hoặc cách nhau bằng dòng trống). Có file mẫu trong [`examples/`](examples/).
 
@@ -77,14 +83,15 @@ python3 skills/rmit-ref/scripts/check_format.py my-refs.txt --text my-essay.txt
 - **Cross-check** in-text citations against the reference list (missing, never cited, `et al.` misuse).
 - **Verify sources** against Crossref, OpenAlex, doi.org, Open Library and the Wayback Machine, flagging fabricated (AI-hallucinated) references, borrowed/phantom DOIs, dead links and retracted papers — each with an evidence tier.
 - **AI acknowledgement** and AI-tool references per RMIT's February 2026 guidance.
+- **Synthesis** (second skill, `synthesizing`): builds a synthesis matrix — ideas as rows, sources as columns, stance markers (● agree, ◐ partial/different perspective, ⊘ disagree, ✚ alternative) and a notes column on argument strength, relevance and reliability — infers the pattern per idea (consensus, majority with dissent, contested, single-source, gap), exports Markdown/CSV/HTML, and scaffolds synthesised paragraphs with RMIT Harvard citations.
 
 The style rules are distilled from RMIT Library's Easy Cite RMIT Harvard guide: [`rmit-harvard.md`](skills/rmit-ref/references/rmit-harvard.md).
 
 ### Install
 
 - **Claude Code plugin:** `/plugin marketplace add conghien315-dev/rmit-ref`, then `/plugin install rmit-ref@rmit-ref`.
-- **Manual (Claude Code):** copy `skills/rmit-ref` into `~/.claude/skills/`.
-- **Claude.ai / Desktop:** zip `skills/rmit-ref` and upload it under Settings → Capabilities → Skills.
+- **Manual (Claude Code):** copy `skills/rmit-ref` and `skills/synthesizing` into `~/.claude/skills/`.
+- **Claude.ai / Desktop:** zip `skills/rmit-ref` (and `skills/synthesizing`, one zip each) and upload it under Settings → Capabilities → Skills.
 - **ChatGPT:** build a Custom GPT with the ready-made instructions and Actions in [`chatgpt/`](chatgpt/README.md).
 
 Optional: set `OPENALEX_API_KEY` (free key from openalex.org) for heavier use — OpenAlex's keyless quota is shared per IP address.
@@ -103,7 +110,12 @@ skills/rmit-ref/
   scripts/
     verify_refs.py       registry-based source verification + DOI → reference drafts
     check_format.py      offline RMIT Harvard linter + in-text cross-check
-examples/                sample reference list and essay
+skills/synthesizing/
+  SKILL.md               synthesis-matrix workflow
+  references/synthesis-guide.md  patterns, evaluation, paragraph templates, verbs
+  scripts/build_matrix.py        matrix JSON → Markdown / CSV / HTML
+chatgpt/                 Custom GPT kit (instructions, Action schemas, guide)
+examples/                sample reference list, essay and synthesis matrix
 ```
 
 ### Disclaimer
